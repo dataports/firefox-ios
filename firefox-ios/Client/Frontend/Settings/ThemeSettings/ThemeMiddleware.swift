@@ -14,12 +14,9 @@ protocol ThemeManagerProvider {
 }
 
 class ThemeManagerMiddleware: ThemeManagerProvider {
-    var legacyThemeManager: LegacyThemeManager
     var themeManager: ThemeManager
 
-    init(legacyThemeManager: LegacyThemeManager = LegacyThemeManager.instance,
-         themeManager: ThemeManager = AppContainer.shared.resolve()) {
-        self.legacyThemeManager = legacyThemeManager
+    init(themeManager: ThemeManager = AppContainer.shared.resolve()) {
         self.themeManager = themeManager
     }
 
@@ -30,12 +27,8 @@ class ThemeManagerMiddleware: ThemeManagerProvider {
             store.dispatch(ThemeSettingsAction.receivedThemeManagerValues(currentThemeState))
         case ThemeSettingsAction.toggleUseSystemAppearance(let enabled):
             self.toggleUseSystemAppearance(enabled)
-            store.dispatch(ThemeSettingsAction.systemThemeChanged(self.legacyThemeManager.systemThemeIsOn))
         case ThemeSettingsAction.enableAutomaticBrightness(let enabled):
             self.toggleAutomaticBrightness(enabled)
-            store.dispatch(
-                ThemeSettingsAction.automaticBrightnessChanged(self.legacyThemeManager.automaticBrightnessIsOn)
-            )
         case ThemeSettingsAction.switchManualTheme(let theme):
             self.updateManualTheme(theme)
             store.dispatch(ThemeSettingsAction.manualThemeChanged(theme))
