@@ -17,6 +17,18 @@ protocol TabTrayDelegate: AnyObject {
     func tabTrayDidCloseLastTab(toast: ButtonToast)
 }
 
+extension LegacyGridTabViewController: UIViewControllerTransitioningDelegate {
+
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
+    }
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
+    }
+
+}
+
 class LegacyGridTabViewController: UIViewController,
                                    TabTrayViewDelegate,
                                    Themeable,
