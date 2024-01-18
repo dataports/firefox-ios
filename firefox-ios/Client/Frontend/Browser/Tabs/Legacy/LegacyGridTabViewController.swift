@@ -17,18 +17,6 @@ protocol TabTrayDelegate: AnyObject {
     func tabTrayDidCloseLastTab(toast: ButtonToast)
 }
 
-extension LegacyGridTabViewController: UIViewControllerTransitioningDelegate {
-
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
-    }
-
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
-    }
-
-}
-
 class LegacyGridTabViewController: UIViewController,
                                    TabTrayViewDelegate,
                                    Themeable,
@@ -65,6 +53,7 @@ class LegacyGridTabViewController: UIViewController,
     var themeManager: ThemeManager
     var themeObserver: NSObjectProtocol?
     var shownToast: Toast?
+    var selectedCell: LegacyTabCell?
 
     var toolbarHeight: CGFloat {
         return !shouldUseiPadSetup() ? view.safeAreaInsets.bottom : 0
@@ -570,6 +559,17 @@ extension LegacyGridTabViewController: SwipeAnimatorDelegate {
     // Disable swipe delete while drag reordering
     func swipeAnimatorIsAnimateAwayEnabled(_ animator: SwipeAnimator) -> Bool {
         return !tabDisplayManager.isDragging
+    }
+}
+
+// MARK: - UIViewControllerTransitioningDelegate
+extension LegacyGridTabViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
+    }
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
     }
 }
 
