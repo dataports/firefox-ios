@@ -564,7 +564,9 @@ extension LegacyGridTabViewController: SwipeAnimatorDelegate {
 
 // MARK: - UIViewControllerTransitioningDelegate
 extension LegacyGridTabViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, 
+                             presenting: UIViewController,
+                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return nil
     }
 
