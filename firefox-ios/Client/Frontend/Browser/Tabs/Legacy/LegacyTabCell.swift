@@ -47,13 +47,14 @@ class LegacyTabCell: UICollectionViewCell,
         view.layer.shadowRadius = HomepageViewModel.UX.shadowRadius
     }
 
-    private lazy var screenshotView: UIImageView = .build { view in
+    // TODO: Manage encapsulation better for views - SOPHIE
+    lazy var screenshotView: UIImageView = .build { view in
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.isUserInteractionEnabled = false
     }
 
-    private lazy var titleText: UILabel = .build { label in
+    lazy var titleText: UILabel = .build { label in
         label.isUserInteractionEnabled = false
         label.numberOfLines = 1
         label.font = DefaultDynamicFontHelper.preferredFont(withTextStyle: .body, size: 12, weight: .semibold)
@@ -62,7 +63,7 @@ class LegacyTabCell: UICollectionViewCell,
     private lazy var smallFaviconView: FaviconImageView = .build { _ in }
     private lazy var favicon: FaviconImageView = .build { _ in }
 
-    private lazy var closeButton: UIButton = .build { button in
+    lazy var closeButton: UIButton = .build { button in
         button.setImage(UIImage.templateImageNamed(StandardImageIdentifiers.Large.cross), for: [])
         button.imageView?.contentMode = .scaleAspectFit
         button.contentMode = .center
