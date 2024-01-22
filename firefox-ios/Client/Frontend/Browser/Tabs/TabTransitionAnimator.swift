@@ -6,9 +6,6 @@ import UIKit
 
 // 8
 final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
-
-    // 9
-
     static let duration: TimeInterval = 1.25
 
     private let type: PresentationType
@@ -16,9 +13,6 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
     private let secondViewController: BrowserViewController
     private var selectedCellImageViewSnapshot: UIView
     private let cellImageViewRect: CGRect
-
-    // 45
-    private let cellLabelRect: CGRect
 
     // 10
     init?(type: PresentationType, firstViewController: LegacyGridTabViewController, secondViewController: BrowserViewController, selectedCellImageViewSnapshot: UIView) {
@@ -33,9 +27,6 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
 
         // 11
         self.cellImageViewRect = selectedCell.screenshotView.convert(selectedCell.screenshotView.bounds, to: window)
-
-        // 46
-        self.cellLabelRect = selectedCell.titleText.convert(selectedCell.titleText.bounds, to: window)
     }
 
     // 12
@@ -127,7 +118,6 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
 
         // 27
         UIView.animateKeyframes(withDuration: Self.duration, delay: 0, options: .calculationModeCubic, animations: {
-
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
                 // 38
                 self.selectedCellImageViewSnapshot.frame = isPresenting ? controllerImageViewRect : self.cellImageViewRect
