@@ -29,7 +29,7 @@ class BrowserCoordinator: BaseCoordinator,
     var privateViewController: PrivateHomepageViewController?
 
     private var profile: Profile
-    private let tabManager: TabManager
+    let tabManager: TabManager
     private let themeManager: ThemeManager
     private let windowManager: WindowManager
     private let screenshotService: ScreenshotService

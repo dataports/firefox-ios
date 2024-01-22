@@ -57,18 +57,23 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
 
         containerView.addSubview(toView)
 
+        let controllerImage: UIImageView = .build { [weak self] imageView in
+            imageView.image = self?.secondViewController.tabManager.selectedTab?.screenshot
+        }
+
         // 21
         guard
             let selectedCell = firstViewController.selectedCell,
             let window = firstViewController.view.window ?? secondViewController.view.window,
             let cellImageSnapshot = selectedCell.screenshotView.snapshotView(afterScreenUpdates: true),
-            let controllerImageSnapshot = secondViewController.locationImageView.snapshotView(afterScreenUpdates: true),
-            let cellLabelSnapshot = selectedCell.locationLabel.snapshotView(afterScreenUpdates: true), // 47
-            let closeButtonSnapshot = secondViewController.closeButton.snapshotView(afterScreenUpdates: true) // 53
+            let controllerImageSnapshot = controllerImage.snapshotView(afterScreenUpdates: true)// 47
+//            let closeButtonSnapshot = secondViewController.closeButton.snapshotView(afterScreenUpdates: true) // 53
             else {
                 transitionContext.completeTransition(true)
                 return
         }
+
+        // SOPHIE - Close button not used - REMOVED
 
         let isPresenting = type.isPresenting
 
@@ -97,14 +102,13 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
         // 42
         // 48
         // 54
-        [backgroundView, selectedCellImageViewSnapshot, controllerImageSnapshot, cellLabelSnapshot, closeButtonSnapshot].forEach { containerView.addSubview($0) }
+        [backgroundView, selectedCellImageViewSnapshot, controllerImageSnapshot].forEach { containerView.addSubview($0) }
 
         // 25
-        let controllerImageViewRect = secondViewController.locationImageView.convert(secondViewController.locationImageView.bounds, to: window)
-        // 49
-        let controllerLabelRect = secondViewController.locationLabel.convert(secondViewController.locationLabel.bounds, to: window)
+        let controllerImageViewRect = controllerImage.convert(controllerImage.bounds, to: window)
+
         // 55
-        let closeButtonRect = secondViewController.closeButton.convert(secondViewController.closeButton.bounds, to: window)
+//        let closeButtonRect = secondViewController.closeButton.convert(secondViewController.closeButton.bounds, to: window)
 
         // 35
         [selectedCellImageViewSnapshot, controllerImageSnapshot].forEach {
@@ -121,13 +125,6 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
         // 37
         selectedCellImageViewSnapshot.alpha = isPresenting ? 1 : 0
 
-        // 50
-        cellLabelSnapshot.frame = isPresenting ? cellLabelRect : controllerLabelRect
-
-        // 56
-        closeButtonSnapshot.frame = closeButtonRect
-        closeButtonSnapshot.alpha = isPresenting ? 0 : 1
-
         // 27
         UIView.animateKeyframes(withDuration: Self.duration, delay: 0, options: .calculationModeCubic, animations: {
 
@@ -138,9 +135,6 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
 
                 // 43
                 fadeView.alpha = isPresenting ? 1 : 0
-
-                // 51
-                cellLabelSnapshot.frame = isPresenting ? controllerLabelRect : self.cellLabelRect
 
                 // 60
                 [controllerImageSnapshot, self.selectedCellImageViewSnapshot].forEach {
@@ -155,9 +149,9 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
             }
 
             // 57
-            UIView.addKeyframe(withRelativeStartTime: isPresenting ? 0.7 : 0, relativeDuration: 0.3) {
-                closeButtonSnapshot.alpha = isPresenting ? 1 : 0
-            }
+//            UIView.addKeyframe(withRelativeStartTime: isPresenting ? 0.7 : 0, relativeDuration: 0.3) {
+//                closeButtonSnapshot.alpha = isPresenting ? 1 : 0
+//            }
         }, completion: { _ in
             // 29
             self.selectedCellImageViewSnapshot.removeFromSuperview()
@@ -165,10 +159,6 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
 
             // 44
             backgroundView.removeFromSuperview()
-            // 52
-            cellLabelSnapshot.removeFromSuperview()
-            // 58
-            closeButtonSnapshot.removeFromSuperview()
 
             // 30
             toView.alpha = 1
@@ -181,7 +171,6 @@ final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
 
 // 14
 enum PresentationType {
-
     case present
     case dismiss
 
