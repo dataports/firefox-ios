@@ -38,6 +38,7 @@ class LegacyGridTabViewController: UIViewController,
         static let undoToastDuration = DispatchTimeInterval.seconds(3)
     }
 
+    let tabAnimator: TabTransitionAnimator?
     let tabManager: TabManager
     let profile: Profile
     weak var delegate: TabTrayDelegate?
@@ -92,6 +93,7 @@ class LegacyGridTabViewController: UIViewController,
 
     // MARK: - Inits
     init(tabManager: TabManager,
+         tabAnimator: TabTransitionAnimator? = nil,
          profile: Profile,
          tabTrayDelegate: TabTrayDelegate? = nil,
          tabToFocus: Tab? = nil,
@@ -99,6 +101,7 @@ class LegacyGridTabViewController: UIViewController,
          themeManager: ThemeManager = AppContainer.shared.resolve()
     ) {
         self.tabManager = tabManager
+        self.tabAnimator = tabAnimator
         self.profile = profile
         self.delegate = tabTrayDelegate
         self.tabToFocus = tabToFocus

@@ -5,7 +5,7 @@
 import UIKit
 
 // 8
-final class Animator: NSObject, UIViewControllerAnimatedTransitioning {
+final class TabTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     static let duration: TimeInterval = 1.25
 
     private let type: PresentationType
