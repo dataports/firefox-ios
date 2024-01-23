@@ -38,7 +38,8 @@ class LegacyGridTabViewController: UIViewController,
         static let undoToastDuration = DispatchTimeInterval.seconds(3)
     }
 
-    let tabAnimator: TabTransitionAnimator?
+    var tabAnimator: TabTransitionAnimator?
+    var selectedCellImageViewSnapshot: UIView?
     let tabManager: TabManager
     let profile: Profile
     weak var delegate: TabTrayDelegate?
@@ -497,6 +498,7 @@ extension LegacyGridTabViewController: TabSelectionDelegate {
                 notificationCenter.post(name: .TabsTrayDidSelectHomeTab)
             }
             tabManager.selectTab(tab)
+            selectedCellImageViewSnapshot = selectedCell?.snapshotView(afterScreenUpdates: false)
             dismissTabTray()
         }
     }
@@ -567,14 +569,19 @@ extension LegacyGridTabViewController: SwipeAnimatorDelegate {
 
 // MARK: - UIViewControllerTransitioningDelegate
 extension LegacyGridTabViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController, 
-                             presenting: UIViewController,
-                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
-    }
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard let firstViewController = presenting as? LegacyGridTabViewController,
+            let secondViewController = presented as? BrowserViewController,
+            let selectedCellImageViewSnapshot = selectedCellImageViewSnapshot
+            else { return nil }
 
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
+        tabAnimator = TabTransitionAnimator(
+            type: .present,
+            firstViewController: firstViewController,
+            secondViewController: secondViewController,
+            selectedCellImageViewSnapshot: selectedCellImageViewSnapshot)
+
+        return tabAnimator
     }
 }
 
