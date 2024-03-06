@@ -162,6 +162,10 @@ class TabManagerMiddleware {
         let tabManager = tabManager(for: uuid)
         let selectedTab = tabManager.selectedTab
         let tabManagerTabs = isPrivateMode ? tabManager.privateTabs : tabManager.normalActiveTabs
+
+        // Private tabs order is not updated after being moved?? what happened
+        print("is private mode: \(isPrivateMode)\n")
+        print("Tab manageer tabs: \(tabManagerTabs.count)")
         tabManagerTabs.forEach { tab in
             let tabModel = TabModel(tabUUID: tab.tabUUID,
                                     isSelected: tab == selectedTab,
@@ -171,6 +175,7 @@ class TabManagerMiddleware {
                                     url: tab.url,
                                     screenshot: tab.screenshot,
                                     hasHomeScreenshot: tab.hasHomeScreenshot)
+            print("Tab model in loop: \(tab.displayTitle)")
             tabs.append(tabModel)
         }
 
