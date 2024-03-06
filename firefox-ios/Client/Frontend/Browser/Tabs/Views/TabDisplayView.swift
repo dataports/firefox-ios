@@ -356,11 +356,13 @@ extension TabDisplayView: UICollectionViewDragDelegate, UICollectionViewDropDele
         let section = destinationIndexPath.section
         let start = IndexPath(row: sourceIndex, section: section)
         let end = IndexPath(row: destinationIndexPath.item, section: section)
+
+        // Should tab be dropped and moved after a state update, is something getting out of sync??
+        coordinator.drop(dragItem, toItemAt: destinationIndexPath)
+
         store.dispatch(TabPanelAction.moveTab(MoveTabContext(originIndex: start.row,
                                                              destinationIndex: end.row,
                                                              windowUUID: windowUUID)))
-        coordinator.drop(dragItem, toItemAt: destinationIndexPath)
-
         collectionView.moveItem(at: start, to: end)
     }
 }
