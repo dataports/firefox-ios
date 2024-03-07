@@ -508,16 +508,22 @@ class LegacyTabManager: NSObject, FeatureFlaggable, TabManager, TabEventHandler 
 
     // MARK: - Move tabs
     func moveTab(isPrivate privateMode: Bool, fromIndex visibleFromIndex: Int, toIndex visibleToIndex: Int) {
-        let currentTabs = privateMode ? privateTabs : normalTabs
-
-        guard visibleFromIndex < currentTabs.count, visibleToIndex < currentTabs.count else { return }
-
-        let fromIndex = tabs.firstIndex(of: currentTabs[visibleFromIndex]) ?? tabs.count - 1
-        let toIndex = tabs.firstIndex(of: currentTabs[visibleToIndex]) ?? tabs.count - 1
+//        let currentTabs = privateMode ? privateTabs : normalTabs
+//
+//        guard visibleFromIndex < currentTabs.count, visibleToIndex < currentTabs.count else { return }
+//
+//        let fromIndex = tabs.firstIndex(of: currentTabs[visibleFromIndex]) ?? tabs.count - 1
+//        let toIndex = tabs.firstIndex(of: currentTabs[visibleToIndex]) ?? tabs.count - 1
 
         let previouslySelectedTab = selectedTab
-
-        tabs.insert(tabs.remove(at: fromIndex), at: toIndex)
+        for tab in tabs {
+            print("Tab: \(tab.url)\n")
+        }
+        print("********************************")
+        tabs.insert(tabs.remove(at: visibleFromIndex), at: visibleToIndex)
+        for tab in tabs {
+            print("Tab: \(tab.url)")
+        }
 
         if let previouslySelectedTab = previouslySelectedTab,
            let previousSelectedIndex = tabs.firstIndex(of: previouslySelectedTab) {
