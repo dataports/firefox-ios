@@ -517,12 +517,12 @@ class LegacyTabManager: NSObject, FeatureFlaggable, TabManager, TabEventHandler 
 
         let previouslySelectedTab = selectedTab
         for tab in tabs {
-            print("Tab: \(tab.url)\n")
+            print("Tab: \(String(describing: tab.url))\n")
         }
         print("********************************")
         tabs.insert(tabs.remove(at: visibleFromIndex), at: visibleToIndex)
         for tab in tabs {
-            print("Tab: \(tab.url)")
+            print("Tab: \(String(describing: tab.url))")
         }
 
         if let previouslySelectedTab = previouslySelectedTab,
