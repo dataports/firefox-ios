@@ -315,6 +315,8 @@ class TabDisplayView: UIView,
         guard let tabCell = animator.animatingView as? TabCell,
               let indexPath = collectionView.indexPath(for: tabCell) else { return }
 
+        print("\n\nTab cell: \(tabCell.tabModel?.tabTitle)\n\n")
+
         let tab = tabsState.tabs[indexPath.item]
         store.dispatch(TabPanelAction.closeTab(TabUUIDContext(tabUUID: tab.tabUUID, windowUUID: windowUUID)))
         UIAccessibility.post(notification: UIAccessibility.Notification.announcement,
